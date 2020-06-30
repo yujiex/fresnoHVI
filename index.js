@@ -1,6 +1,34 @@
 import parkUrl from './geojson_files/parks.geojson';
 import demographicsUrl from './geojson_files/demographics.geojson';
 import allmapsUrl from './geojson_files/allmaps.geojson';
+import testurl from './geojson_files/pm25.geojson';
+
+var w1;
+var w2;
+var w3;
+var w4;
+var w5;
+var geojsonAll;
+// helpers
+
+function changeWeights() {
+    w1 = Number(document.getElementById('w_1').value);
+    w2 = Number(document.getElementById('w_2').value);
+    w3 = Number(document.getElementById('w_3').value);
+    w4 = Number(document.getElementById('w_4').value);
+    w5 = Number(document.getElementById('w_5').value);
+    var norm = w1 + w2 + w3 + w4 + w5;
+    console.log(w1);
+    console.log(w2);
+    console.log(w3);
+    console.log(w4);
+    console.log(w5);
+    exposureMap.removeLayer(geojsonAll);
+    geojsonAll = new L.GeoJSON.AJAX(allmapsUrl, {style: style_exposure,
+                                                     onEachFeature: onEachFeature,
+                                                    });
+    geojsonAll.addTo(exposureMap);
+}
 
 function parkStyle(feature) {
     return {
@@ -41,9 +69,31 @@ function getColorExposureIndex(d) {
         '#f2f0f7';
 }
 
+function getIntExposure(d) {
+    return d <= 1 ? '#FFFFB2' :
+        d <= 2 ? '#FECC5C' :
+        d <= 3 ? '#FD8D3C' :
+        d <= 4 ? '#F03B20' :
+        d <= 5 ? '#BD0026' :
+        '#f2f0f7';
+}
+
 function style_exposure(feature) {
+    w1 = Number(document.getElementById('w_1').value);
+    w2 = Number(document.getElementById('w_2').value);
+    w3 = Number(document.getElementById('w_3').value);
+    w4 = Number(document.getElementById('w_4').value);
+    w5 = Number(document.getElementById('w_5').value);
+    var norm = w1 + w2 + w3 + w4 + w5;
     return {
-        fillColor: getColorExposureIndex(feature.properties.overall_exposure),
+        // fillColor: getColorExposureIndex(feature.properties.overall_exposure),
+        fillColor: getIntExposure(
+            (w1 / norm * feature.properties.heat_days_tmaxtmin +
+             w2 / norm * feature.properties.high_temp_streak_longest +
+             w3 / norm * feature.properties.high_hi_hours +
+             w4 / norm * feature.properties.pm25_concentration +
+             w5 / norm * feature.properties.ozone_exceedance)
+        ),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -100,6 +150,13 @@ function style_ozone_exceedance(feature) {
         fillOpacity: 0.7
     };
 };
+
+// install actions
+document.getElementById('w_1').onchange = changeWeights;
+document.getElementById('w_2').onchange = changeWeights;
+document.getElementById('w_3').onchange = changeWeights;
+document.getElementById('w_4').onchange = changeWeights;
+document.getElementById('w_5').onchange = changeWeights;
 
 // heat days map
 var heat_days_tmaxtminMap = L.map('heat_days_tmaxtmin').setView([36.77, -119.78], 10);
@@ -163,7 +220,7 @@ new L.GeoJSON.AJAX(allmapsUrl, {style: style_ozone_exceedance,
 
 
 // exposure map
-var exposureMap = L.map('mainview').setView([36.77, -119.78], 12);
+var exposureMap = L.map('mainview').setView([36.77, -119.78], 11);
 L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     subdomains: 'abcd',
@@ -172,7 +229,7 @@ L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}
     ext: 'png'
 }).addTo(exposureMap);
 
-var geojsonAll = new L.GeoJSON.AJAX(allmapsUrl, {style: style_exposure,
+geojsonAll = new L.GeoJSON.AJAX(allmapsUrl, {style: style_exposure,
                                                  onEachFeature: onEachFeature,
                                                 });
 geojsonAll.addTo(exposureMap);
@@ -187,10 +244,22 @@ info.onAdd = function (exposureMap) {
 
 // method that we will use to update the control based on feature properties passed
 info.update = function (props) {
+    w1 = Number(document.getElementById('w_1').value);
+    w2 = Number(document.getElementById('w_2').value);
+    w3 = Number(document.getElementById('w_3').value);
+    w4 = Number(document.getElementById('w_4').value);
+    w5 = Number(document.getElementById('w_5').value);
+    var norm = w1 + w2 + w3 + w4 + w5;
+    console.log(norm);
     this._div.innerHTML = '<h4>Exposure</h4>' +
         (props ? '<b>' +
          props.GEOID10 + '</b><br />' +
-         'overall exposure: ' + props.overall_exposure + '<br/>' +
+         'overall exposure: ' +
+         (w1 / norm * props.heat_days_tmaxtmin +
+          w2 / norm * props.high_temp_streak_longest +
+          w3 / norm * props.high_hi_hours +
+          w4 / norm * props.pm25_concentration +
+          w5 / norm * props.ozone_exceedance).toFixed(1) + '<br/>' +
          '<br/>' +
          'class label of individual factors' + '<br/>' +
          '# overheat days: ' + props.heat_days_tmaxtmin + '<br/>' +
@@ -236,6 +305,7 @@ function onEachFeature(feature, layer) {
     });
 }
 
+// fixme: need to update legend
 var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
@@ -246,8 +316,6 @@ legend.onAdd = function (map) {
 
     // loop through our density intervals and generate a label with a colored square for each interval
     for (var i = 0; i < grades.length; i++) {
-        console.log(i);
-        console.log(getColorExposure(i + 1));
         div.innerHTML +=
             '<i style="background:' + getColorExposure(i + 1) + '"></i> ' +
             grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');

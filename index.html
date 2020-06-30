@@ -38,9 +38,30 @@
         </style>
     </head>
 <body>
-    <button type="button" class="btn btn-outline-danger">Exposure</button>
-    <button type="button" class="btn btn-outline-primary">Sensitivity</button>
-    <button type="button" class="btn btn-outline-success">Adaptation</button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg" id="buttons">
+                <div>
+                    <button type="button" class="btn btn-outline-danger">Exposure</button>
+                    <button type="button" class="btn btn-outline-primary">Sensitivity</button>
+                    <button type="button" class="btn btn-outline-success">Adaptation</button>
+                </div>
+            </div>
+            <div class="col-lg" id="weights">
+                <div>
+                    weights
+                </div>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="w_1" value="0.2" onchange="changeWeights" placeholder="0.2">
+                    <input type="text" class="form-control" id="w_2" value="0.2" onchange="changeWeights" placeholder="0.2">
+                    <input type="text" class="form-control" id="w_3" value="0.2" onchange="changeWeights" placeholder="0.2">
+                    <input type="text" class="form-control" id="w_4" value="0.2" onchange="changeWeights" placeholder="0.2">
+                    <input type="text" class="form-control" id="w_5" value="0.2" onchange="changeWeights" placeholder="0.2">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <h1>Exposure</h1>
     <div class="container-fluid">
         <div class="row">
