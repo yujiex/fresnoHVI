@@ -70,10 +70,10 @@ function getColorExposureIndex(d) {
 }
 
 function getIntExposure(d) {
-    return d <= 1 ? '#FFFFB2' :
-        d <= 2 ? '#FECC5C' :
-        d <= 3 ? '#FD8D3C' :
-        d <= 4 ? '#F03B20' :
+    return d <= 1.5 ? '#FFFFB2' :
+        d <= 2.5 ? '#FECC5C' :
+        d <= 3.5 ? '#FD8D3C' :
+        d <= 4.5 ? '#F03B20' :
         d <= 5 ? '#BD0026' :
         '#f2f0f7';
 }
@@ -311,7 +311,7 @@ var legend = L.control({position: 'bottomright'});
 legend.onAdd = function (map) {
 
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = [1.8, 2.4, 2.8, 3.2, 3.6],
+        grades = [1, 1.5, 2.5, 3.5, 4.5],
         labels = [];
 
     // loop through our density intervals and generate a label with a colored square for each interval
