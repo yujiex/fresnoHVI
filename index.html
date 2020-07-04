@@ -35,6 +35,20 @@
                 margin: 0 0 5px;
                 color: #777;
             }
+            .zoom {
+                transition: transform .2s; /* Animation */
+                width: 100%;
+                height: 250px;
+                margin: 0 auto;
+                z-index: 1;
+            }
+
+            .zoom:hover {
+                transform: scale(2);
+                margin-left:-100px;
+                margin-top:100px;
+                z-index: 3;
+            }
         </style>
     </head>
 <body>
@@ -65,24 +79,24 @@
     <h1>Exposure</h1>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg" id="mainview" style="height:800px">
+            <div class="col-lg" id="mainview" style="height:800px;z-index:1">
             </div>
             <div class="col-lg">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg">
                             Overheat Days
-                            <div id="heat_days_tmaxtmin" style="height:250px">
+                            <div class="zoom" id="heat_days_tmaxtmin">
                             </div>
                         </div>
                         <div class="col-lg">
                             Longest Overheat-day Streak
-                            <div  id="high_temp_streak_longest" style="height:250px">
+                            <div class="zoom" id="high_temp_streak_longest">
                             </div>
                         </div>
                         <div class="col-lg">
                             High HI Hours
-                            <div id="high_hi_hours" style="height:250px">
+                            <div class="zoom" id="high_hi_hours">
                             </div>
                         </div>
                     </div>
@@ -90,35 +104,34 @@
                     <div class="row">
                         <div class="col-lg">
                             PM2.5 concentration
-                            <div id="pm25_concentration" style="height:250px">
+                            <div class="zoom" id="pm25_concentration">
                             </div>
                         </div>
                         <div class="col-lg">
                             Ozone exceedance
-                            <div id="ozone_exceedance" style="height:250px">
+                            <div class="zoom" id="ozone_exceedance">
                             </div>
                         </div>
                         <div class="col-lg">
-                            <div style="height:30%"> </div>
+                            <div class="zoom" style="height:30%"> </div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg">
-                            <div style="height:30%"> </div>
+                            <div class="zoom" style="height:30%"> </div>
                         </div>
                         <div class="col-lg">
-                            <div style="height:30%"> </div>
+                            <div class="zoom" style="height:30%"> </div>
                         </div>
                         <div class="col-lg">
-                            <div style="height:30%"> </div>
+                            <div class="zoom" style="height:30%"> </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <div id="mapid" style="height:600px;width:50%"></div> -->
     <script src="index.js"></script>
 </body>
 </html>
