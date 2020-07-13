@@ -158,6 +158,18 @@ document.getElementById('w_3').onchange = changeWeights;
 document.getElementById('w_4').onchange = changeWeights;
 document.getElementById('w_5').onchange = changeWeights;
 
+$(document).on('change', 'input:radio[name="options"]', function (event) {
+    if ($("#exposure").is(":checked")) {
+        console.log("exposure checked");
+    }
+    else if ($("#sensitivity").is(":checked")) {
+        console.log("sensitivity checked");
+    } else {
+        console.log("adaptation checked");
+    }
+});
+
+
 // heat days map
 var heat_days_tmaxtminMap = L.map('heat_days_tmaxtmin').setView([36.77, -119.78], 10);
 L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
