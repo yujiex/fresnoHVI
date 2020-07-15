@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh1.063XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
               integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
               crossorigin=""/>
@@ -31,7 +31,7 @@
              font: 14px/16px Arial, Helvetica, sans-serif;
              background: white;
              background: rgba(255,255,255,0.8);
-             box-shadow: 0 0 15px rgba(0,0,0,0.2);
+             box-shadow: 0 0 15px rgba(0,0,0,1.0);
              border-radius: 5px;
          }
          .info h4 {
@@ -75,17 +75,21 @@
                         weights
                     </div>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="w_1" value="0.2" onchange="changeWeights" placeholder="0.2">
-                        <input type="text" class="form-control" id="w_2" value="0.2" onchange="changeWeights" placeholder="0.2">
-                        <input type="text" class="form-control" id="w_3" value="0.2" onchange="changeWeights" placeholder="0.2">
-                        <input type="text" class="form-control" id="w_4" value="0.2" onchange="changeWeights" placeholder="0.2">
-                        <input type="text" class="form-control" id="w_5" value="0.2" onchange="changeWeights" placeholder="0.2">
+                        <input type="text" class="form-control" id="w_1" value="1.0" placeholder="0">
+                        <input type="text" class="form-control" id="w_2" value="1.0" placeholder="0">
+                        <input type="text" class="form-control" id="w_3" value="1.0" placeholder="0">
+                        <input type="text" class="form-control" id="w_4" value="1.0" placeholder="0">
+                        <input type="text" class="form-control" id="w_5" value="1.0" placeholder="0">
+                        <input type="text" class="form-control" id="w_6" value="1.0" placeholder="0">
+                        <input type="text" class="form-control" id="w_7" value="1.0" placeholder="0">
+                        <input type="text" class="form-control" id="w_8" value="1.0" placeholder="0">
+                        <input type="text" class="form-control" id="w_9" value="1.0" placeholder="0">
                     </div>
                 </div>
             </div>
         </div>
 
-        <h1>Exposure</h1>
+        <h1 id="titletext">Exposure</h1>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg" id="mainview" style="height:800px;z-index:1">
@@ -94,47 +98,55 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg">
-                                Overheat Days
-                                <div class="zoom" id="heat_days_tmaxtmin">
+                                <p id="factor1">Overheat Days</p>
+                                <div class="zoom" id="f1">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                Longest Overheat-day Streak
-                                <div class="zoom" id="high_temp_streak_longest">
+                                <p id="factor2">Longest Overheat-day Streak</p>
+                                <div class="zoom" id="f2">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                High HI Hours
-                                <div class="zoom" id="high_hi_hours">
+                                <p id="factor3">High HI Hours</p>
+                                <div class="zoom" id="f3">
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-lg">
-                                PM2.5 concentration
-                                <div class="zoom" id="pm25_concentration">
+                                <p id="factor4">PM2.5 Concentration</p>
+                                <div class="zoom" id="f4">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                Ozone exceedance
-                                <div class="zoom" id="ozone_exceedance">
+                                <p id="factor5">Ozone Exceedance</p>
+                                <div class="zoom" id="f5">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                <div class="zoom" style="height:30%"> </div>
+                                <p id="factor6"></p>
+                                <div class="zoom" id="f6">
+                                </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-lg">
-                                <div class="zoom" style="height:30%"> </div>
+                                <p id="factor7"></p>
+                                <div class="zoom" id="f7">
+                                </div>
                             </div>
                             <div class="col-lg">
-                                <div class="zoom" style="height:30%"> </div>
+                                <p id="factor8"></p>
+                                <div class="zoom" id="f8">
+                                </div>
                             </div>
                             <div class="col-lg">
-                                <div class="zoom" style="height:30%"> </div>
+                                <p id="factor9"></p>
+                                <div class="zoom" id="f9">
+                                </div>
                             </div>
                         </div>
                     </div>
