@@ -393,6 +393,27 @@ $(document).on('change', 'input:radio[name="options"]', function (event) {
                                         {style: style_exposure,
                                          onEachFeature: onEachFeature,
                                         }).addTo(mainMap);
+
+        // update legend
+        mainMap.removeControl(legend);
+        legend = new L.control({position: 'bottomright'});
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = [1, 1.5, 2.5, 3.5, 4.5],
+                labels = [];
+            var palette = getPaletteName();
+            console.log("palette name");
+            console.log(palette);
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColorLegend(i + 1, palette) + '"></i> ' +
+                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            }
+            return div;
+        };
+        legend.addTo(mainMap);
+
         f1_map.removeLayer(f1Geojson);
         f1Geojson = new L.GeoJSON.AJAX(allmapsUrl, {style:  style_heat_days_tmaxtmin,
                                                    }).addTo(f1_map);
@@ -441,6 +462,26 @@ $(document).on('change', 'input:radio[name="options"]', function (event) {
                                         {style: style_sensitivity,
                                          onEachFeature: onEachFeature,
                                         }).addTo(mainMap);
+        mainMap.removeControl(legend);
+
+        legend = new L.control({position: 'bottomright'});
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = [1, 1.5, 2.5, 3.5, 4.5],
+                labels = [];
+            var palette = getPaletteName();
+            console.log("palette name");
+            console.log(palette);
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColorLegend(i + 1, palette) + '"></i> ' +
+                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            }
+            return div;
+        };
+        legend.addTo(mainMap);
+
         f1_map.removeLayer(f1Geojson);
         f1Geojson = new L.GeoJSON.AJAX(allmapsUrl, {style: style_perc_children,
                                        }).addTo(f1_map);
@@ -504,6 +545,28 @@ $(document).on('change', 'input:radio[name="options"]', function (event) {
                                         {style: style_adaptation,
                                          onEachFeature: onEachFeature,
                                         }).addTo(mainMap);
+
+        // update legend
+        mainMap.removeControl(legend);
+        legend = new L.control({position: 'bottomright'});
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = [1, 1.5, 2.5, 3.5, 4.5],
+                labels = [];
+            var palette = getPaletteName();
+            console.log("palette name");
+            console.log(palette);
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColorLegend(i + 1, palette) + '"></i> ' +
+                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            }
+            return div;
+        };
+        legend.addTo(mainMap);
+
+
         f1_map.removeLayer(f1Geojson);
         f1Geojson = new L.GeoJSON.AJAX(allmapsUrl, {style: style_median_income_kdollars,
                                                    }).addTo(f1_map);
@@ -703,10 +766,11 @@ info.update = function (props) {
         labelstring = '<b>';
     }
     var titlestring = $('#titletext').text();
-    this._div.innerHTML = '<h4>' + titlestring + '</h4>' +
-        (props ? '<b>' +
+    this._div.innerHTML =
+        (props ? '<h4>' + $('#titletext').text() + '</h4>' +
+         '<b>' +
          props.GEOID10 + '</b><br />' +
-         'overall ' + titlestring + ': ' +
+         'overall ' + $('#titletext').text() + ': ' +
          dotProd(weights, values).toFixed(1) + '<br/>' +
          '<br/>' +
          'class label of individual factors' + '<br/>' +
@@ -751,7 +815,6 @@ function onEachFeature(feature, layer) {
 
 console.log();
 
-// fixme: need to update legend
 var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
