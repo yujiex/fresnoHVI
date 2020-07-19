@@ -56,59 +56,53 @@
     </head>
     <body>
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg" id="mybuttons">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-outline-danger active">
-                            <input type="radio" name="options" id="exposure" autocomplete="off" checked> Exposure
-                        </label>
-                        <label class="btn btn-outline-primary">
-                            <input type="radio" name="options" id="sensitivity" autocomplete="off"> Sensitivity
-                        </label>
-                        <label class="btn btn-outline-success">
-                            <input type="radio" name="options" id="adaptation" autocomplete="off"> Adaptation
-                        </label>
-                    </div>
-                </div>
-                <div class="col-lg" id="weights">
-                    <div>
-                        weights
-                    </div>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="w_1" value="1.0" placeholder="0">
-                        <input type="text" class="form-control" id="w_2" value="1.0" placeholder="0">
-                        <input type="text" class="form-control" id="w_3" value="1.0" placeholder="0">
-                        <input type="text" class="form-control" id="w_4" value="1.0" placeholder="0">
-                        <input type="text" class="form-control" id="w_5" value="1.0" placeholder="0">
-                        <input type="text" class="form-control" id="w_6" value="1.0" placeholder="0">
-                        <input type="text" class="form-control" id="w_7" value="1.0" placeholder="0">
-                        <input type="text" class="form-control" id="w_8" value="1.0" placeholder="0">
-                        <input type="text" class="form-control" id="w_9" value="1.0" placeholder="0">
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <h1 id="titletext">Exposure</h1>
-        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg" id="mainview" style="height:800px;z-index:1">
-                </div>
-                <div class="col-lg">
+
+                <div class="col">
                     <div class="container-fluid">
                         <div class="row">
+                            <div class="col-lg" id="mybuttons">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-outline-danger active">
+                                        <input type="radio" name="options" id="exposure" autocomplete="off" checked> Exposure
+                                    </label>
+                                    <label class="btn btn-outline-primary">
+                                        <input type="radio" name="options" id="sensitivity" autocomplete="off"> Sensitivity
+                                    </label>
+                                    <label class="btn btn-outline-success">
+                                        <input type="radio" name="options" id="adaptation" autocomplete="off"> Adaptation
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <h1 id="titletext">Exposure</h1>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg" id="mainview" style="height:800px;z-index:1">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col">
+
+                    <div class="container-fluid">
+
+                        <div class="row">
                             <div class="col-lg">
-                                <p id="factor1">Overheat Days</p>
                                 <div class="zoom" id="f1">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                <p id="factor2">Longest Overheat-day Streak</p>
                                 <div class="zoom" id="f2">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                <p id="factor3">High HI Hours</p>
                                 <div class="zoom" id="f3">
                                 </div>
                             </div>
@@ -116,17 +110,35 @@
 
                         <div class="row">
                             <div class="col-lg">
-                                <p id="factor4">PM2.5 Concentration</p>
+                                <p id="factor1">Overheat Days</p>
+                            </div>
+                            <div class="col-lg">
+                                <input type="text" class="form-control" id="w_1" value="1.0" placeholder="0">
+                            </div>
+                            <div class="col-lg">
+                                <p id="factor2">Longest Overheat-day Streak</p>
+                            </div>
+                            <div class="col-lg">
+                                <input type="text" class="form-control" id="w_2" value="1.0" placeholder="0">
+                            </div>
+                            <div class="col-lg">
+                                <p id="factor3">High HI Hours</p>
+                            </div>
+                            <div class="col-lg">
+                                <input type="text" class="form-control" id="w_3" value="1.0" placeholder="0">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg">
                                 <div class="zoom" id="f4">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                <p id="factor5">Ozone Exceedance</p>
                                 <div class="zoom" id="f5">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                <p id="factor6"></p>
                                 <div class="zoom" id="f6">
                                 </div>
                             </div>
@@ -134,19 +146,58 @@
 
                         <div class="row">
                             <div class="col-lg">
-                                <p id="factor7"></p>
+                                <p id="factor4">PM2.5 Concentration</p>
+                            </div>
+                            <div class="col-lg">
+                                <input type="text" class="form-control" id="w_4" value="1.0" placeholder="0">
+                            </div>
+                            <div class="col-lg">
+                                <p id="factor5">Ozone Exceedance</p>
+                            </div>
+                            <div class="col-lg">
+                                <input type="text" class="form-control" id="w_5" value="1.0" placeholder="0">
+                            </div>
+                            <div class="col-lg">
+                                <p id="factor6"></p>
+                            </div>
+                            <div class="col-lg">
+                                <input type="text" class="form-control" id="w_6" value="1.0" placeholder="0">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg">
                                 <div class="zoom" id="f7">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                <p id="factor8"></p>
                                 <div class="zoom" id="f8">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                <p id="factor9"></p>
                                 <div class="zoom" id="f9">
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg">
+                                <p id="factor7"></p>
+                            </div>
+                            <div class="col-lg">
+                                <input type="text" class="form-control" id="w_7" value="1.0" placeholder="0">
+                            </div>
+                            <div class="col-lg">
+                                <p id="factor8"></p>
+                            </div>
+                            <div class="col-lg">
+                                <input type="text" class="form-control" id="w_8" value="1.0" placeholder="0">
+                            </div>
+                            <div class="col-lg">
+                                <p id="factor9"></p>
+                            </div>
+                            <div class="col-lg">
+                                <input type="text" class="form-control" id="w_9" value="1.0" placeholder="0">
                             </div>
                         </div>
                     </div>
