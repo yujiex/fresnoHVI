@@ -349,6 +349,19 @@ function style_perc_park (feature) {
 // install actions to weights
 $("input[class='form-control']").change(changeWeights);
 
+$("#resetView").click(function () {
+    mainMap.setView([36.77, -119.78], 11);
+    f1_map.setView([36.77, -119.78], 10);
+    f2_map.setView([36.77, -119.78], 10);
+    f3_map.setView([36.77, -119.78], 10);
+    f4_map.setView([36.77, -119.78], 10);
+    f5_map.setView([36.77, -119.78], 10);
+    f6_map.setView([36.77, -119.78], 10);
+    f7_map.setView([36.77, -119.78], 10);
+    f8_map.setView([36.77, -119.78], 10);
+    f9_map.setView([36.77, -119.78], 10);
+})
+
 function getPaletteName () {
     var selected = $('input:radio[name="options"]:checked').attr('id');
     return selected == "exposure" ? "orangeRed" : selected == "sensitivity" ? "bluePurple" : "blueGreen";
