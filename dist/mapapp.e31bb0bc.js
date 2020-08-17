@@ -117,24 +117,12 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"geojson_files/parks.geojson":[function(require,module,exports) {
-module.exports = "/parks.c473af01.geojson";
-},{}],"geojson_files/demographics.geojson":[function(require,module,exports) {
-module.exports = "/demographics.2c5278af.geojson";
-},{}],"geojson_files/allmaps.geojson":[function(require,module,exports) {
+})({"geojson_files/allmaps.geojson":[function(require,module,exports) {
 module.exports = "/allmaps.20dbe0af.geojson";
-},{}],"geojson_files/pm25.geojson":[function(require,module,exports) {
-module.exports = "/pm25.1e5fcb37.geojson";
 },{}],"index.js":[function(require,module,exports) {
 "use strict";
 
-var _parks = _interopRequireDefault(require("./geojson_files/parks.geojson"));
-
-var _demographics = _interopRequireDefault(require("./geojson_files/demographics.geojson"));
-
 var _allmaps = _interopRequireDefault(require("./geojson_files/allmaps.geojson"));
-
-var _pm = _interopRequireDefault(require("./geojson_files/pm25.geojson"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -973,7 +961,7 @@ legend.onAdd = function (map) {
 };
 
 legend.addTo(mainMap);
-},{"./geojson_files/parks.geojson":"geojson_files/parks.geojson","./geojson_files/demographics.geojson":"geojson_files/demographics.geojson","./geojson_files/allmaps.geojson":"geojson_files/allmaps.geojson","./geojson_files/pm25.geojson":"geojson_files/pm25.geojson"}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./geojson_files/allmaps.geojson":"geojson_files/allmaps.geojson"}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -1001,7 +989,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65461" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55756" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

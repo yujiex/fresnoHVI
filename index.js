@@ -1,7 +1,4 @@
-import parkUrl from './geojson_files/parks.geojson';
-import demographicsUrl from './geojson_files/demographics.geojson';
 import allmapsUrl from './geojson_files/allmaps.geojson';
-import testurl from './geojson_files/pm25.geojson';
 
 var w1;
 var w2;
