@@ -21,10 +21,20 @@ function getSelectedTab () {
     }
 };
 
-function resetWeights () {
+function resetWeights (selected) {
     var weightElem = document.getElementsByClassName('form-control');
+    var defaultWeights;
     for (var i = 0, length = weightElem.length; i < length; i++) {
         weightElem[i].value = '1.0';
+    }
+    if (selected == "exposure") {
+        weightElem[0].value = '5.0';
+        weightElem[1].value = '0.0';
+        weightElem[2].value = '0.0';
+    } else if (selected == "sensitivity") {
+        weightElem[3].value = '5.0';
+    } else if (selected == "adaptation") {
+        weightElem[0].value = '5.0';
     }
 }
 
@@ -108,6 +118,14 @@ function getColorExposureIndex(d) {
         '#f2f0f7';
 }
 
+function getHVIColor(d, palette) {
+    var colors = getPalette(palette);
+    return d <= 1 ? colors[0] :
+        d <= 2 ? colors[1] :
+        d <= 4 ? colors[2] :
+        d <= 8 ? colors[3] : colors[4];
+}
+
 function getMainMapColor(d, palette) {
     var colors = getPalette(palette);
     return d <= 1.5 ? colors[0] :
@@ -125,6 +143,47 @@ function style_empty(feature) {
         opacity: 0,
         color: 'white',
         fillOpacity: 0
+    };
+};
+
+function normalize_weights(weights) {
+    var norm = weights.reduce(function(a, b) {
+        return a + b;
+    }, 0);
+    var normWeights = weights.map(function(w) { return w/norm;});
+    return normWeights;
+}
+
+function style_overall(feature) {
+    var exposureWeights = normalize_weights([5.0, 0.0, 0.0, 1.0, 1.0]);
+    var exposureValues = [feature.properties.heat_days_tmaxtmin,
+                  feature.properties.high_temp_streak_longest,
+                  feature.properties.high_hi_hours,
+                  feature.properties.pm25_concentration,
+                  feature.properties.ozone_exceedance];
+    var sensitivityWeights = normalize_weights([1.0, 1.0, 1.0, 5.0, 1.0, 1.0, 1.0, 1.0, 1.0]);
+    var sensitivityValues = [feature.properties.perc_children,
+                  feature.properties.perc_elderly,
+                  feature.properties.perc_nonwhite,
+                  feature.properties.perc_poverty,
+                  feature.properties.perc_no_hs_diploma,
+                  feature.properties.perc_cognitive_disability,
+                  feature.properties.perc_ambulatory_disability,
+                  feature.properties.asthma_prevalence,
+                  feature.properties.cardio_disease_prevalence];
+    var adaptationWeights = normalize_weights([5.0, 1.0]);
+    var adaptationValues = [feature.properties.median_income_kdollars,
+                  feature.properties.percent_park];
+    return {
+        fillColor: getHVIColor(
+            dotProd(exposureWeights, exposureValues) *
+                dotProd(sensitivityWeights, sensitivityValues) /
+                dotProd(adaptationWeights, adaptationValues),
+            "other"),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        fillOpacity: 0.7
     };
 };
 
@@ -357,21 +416,55 @@ $("#resetView").click(function () {
     f7_map.setView([36.77, -119.78], 10);
     f8_map.setView([36.77, -119.78], 10);
     f9_map.setView([36.77, -119.78], 10);
-})
+});
 
 function getPaletteName () {
     var selected = $('input:radio[name="options"]:checked').attr('id');
-    return selected == "exposure" ? "orangeRed" : selected == "sensitivity" ? "bluePurple" : "blueGreen";
+    return selected == "exposure" ? "orangeRed" :
+        selected == "sensitivity" ? "bluePurple" :
+        selected == "adaptation" ? "blueGreen" :
+        "other";
 }
 
 function getPalette (palette) {
     return (palette == 'orangeRed') ? ['#FFFFB2', '#FECC5C', '#FD8D3C', '#F03B20', '#BD0026'] :
-        (palette == 'bluePurple') ? ['#EDF8FB', '#B3CDE3', '#8C96C6', '#8856A7', '#810F7C'] : ['#EDF8FB', '#B2E2E2', '#66C2A4', '#2CA25F', '#006D2C'];
+        (palette == 'bluePurple') ? ['#EDF8FB', '#B3CDE3', '#8C96C6', '#8856A7', '#810F7C'] :
+        (palette == "blueGreen") ? ['#EDF8FB', '#B2E2E2', '#66C2A4', '#2CA25F', '#006D2C'] :
+        ["#1A9641", "#A6D96A", "#FFFFBF", "#FDAE61", "#D7191C"];
 }
 
 $(document).on('change', 'input:radio[name="options"]', function (event) {
-    if ($("#exposure").is(":checked")) {
+    if ($("#overall").is(":checked")) {
+        console.log("overall checked");
+        $('#titletext').text("Overall");
+        $('#factors').hide();
+        mainMap.removeLayer(geojsonAll);
+        geojsonAll = new L.GeoJSON.AJAX(allmapsUrl,
+                                        {style: style_overall,
+                                         onEachFeature: onEachFeature,
+                                        }).addTo(mainMap);
+        // update legend
+        mainMap.removeControl(legend);
+        legend = new L.control({position: 'bottomright'});
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = [0, 1, 2, 4, 8],
+                labels = [];
+            var palette = getPaletteName();
+            console.log("palette name");
+            console.log(palette);
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColorLegend(i + 1, palette) + '"></i> ' +
+                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            }
+            return div;
+        };
+        legend.addTo(mainMap);
+    } else if ($("#exposure").is(":checked")) {
         console.log("exposure checked");
+        $('#factors').show();
         $('#titletext').text("Exposure");
         $('#factor1').text("Overheat Days");
         $('#factor2').text("Longest Overheat-day Streak");
@@ -390,7 +483,7 @@ $(document).on('change', 'input:radio[name="options"]', function (event) {
         $('#f8').hide();
         $('#f9').hide();
 
-        resetWeights();
+        resetWeights('exposure');
         $('#w_3').show();
         $('#w_4').show();
         $('#w_5').show();
@@ -441,6 +534,7 @@ $(document).on('change', 'input:radio[name="options"]', function (event) {
                                                    }).addTo(f5_map);
     } else if ($("#sensitivity").is(":checked")) {
         console.log("sensitivity checked");
+        $('#factors').show();
         $('#titletext').text("Sensitivity");
         $('#factor1').text("Percent Children");
         $('#factor2').text("Percent Elderly");
@@ -459,7 +553,7 @@ $(document).on('change', 'input:radio[name="options"]', function (event) {
         $('#f8').show();
         $('#f9').show();
 
-        resetWeights();
+        resetWeights('sensitivity');
         $('#w_3').show();
         $('#w_4').show();
         $('#w_5').show();
@@ -525,6 +619,7 @@ $(document).on('change', 'input:radio[name="options"]', function (event) {
                                        }).addTo(f9_map);
     } else {
         console.log("adaptation checked");
+        $('#factors').show();
         $('#titletext').text("Adaptation");
         $('#factor1').text("Income");
         $('#factor2').text("Percent Area of Parks");
@@ -543,6 +638,7 @@ $(document).on('change', 'input:radio[name="options"]', function (event) {
         $('#f8').hide();
         $('#f9').hide();
 
+        resetWeights('adaptation');
         $('#w_3').hide();
         $('#w_4').hide();
         $('#w_5').hide();
@@ -730,14 +826,56 @@ info.update = function (props) {
     var weights = getWeights(selected);
     var values;
     var labelstring;
+    var hvi;
     // console.log(props.heat_days_tmaxtmin);
     if (props) {
-        if (selected == "exposure") {
+        if (selected == "overall") {
+            var exposureWeights = normalize_weights([5.0, 0.0, 0.0, 1.0, 1.0]);
+            var exposureValues = [props.heat_days_tmaxtmin,
+                        props.high_temp_streak_longest,
+                        props.high_hi_hours,
+                        props.pm25_concentration,
+                        props.ozone_exceedance];
+            var sensitivityWeights = normalize_weights([1.0, 1.0, 1.0, 5.0, 1.0, 1.0, 1.0, 1.0, 1.0]);
+            var sensitivityValues = [props.perc_children,
+                        props.perc_elderly,
+                        props.perc_nonwhite,
+                        props.perc_poverty,
+                        props.perc_no_hs_diploma,
+                        props.perc_cognitive_disability,
+                        props.perc_ambulatory_disability,
+                        props.asthma_prevalence,
+                        props.cardio_disease_prevalence];
+            var adaptationWeights = normalize_weights([5.0, 1.0]);
+            var adaptationValues = [props.median_income_kdollars,
+                        props.percent_park];
+            hvi = dotProd(exposureWeights, exposureValues) *
+                dotProd(sensitivityWeights, sensitivityValues) /
+                dotProd(adaptationWeights, adaptationValues);
+            labelstring =
+                '# overheat days: ' + props.heat_days_tmaxtmin + '<br/>' +
+                'longest overheat-day streak: ' + props.high_temp_streak_longest + '<br/>' +
+                '# hours with high HI: ' + props.high_hi_hours + '<br/>' +
+                'PM2.5 concentration: ' + props.pm25_concentration + '<br/>' +
+                'Ozone exceedance: ' + props.ozone_exceedance + '<br/>' +
+                '% children: ' + props.perc_children + '<br/>' +
+                '% elderly: ' + props.perc_elderly + '<br/>' +
+                '% non-white: ' + props.perc_nonwhite + '<br/>' +
+                '% in poverty: ' + props.perc_poverty + '<br/>' +
+                '% low education: ' + props.perc_no_hs_diploma + '<br/>' +
+                '% with cognitive disability: ' + props.perc_cognitive_disability + '<br/>' +
+                '% with ambulatory disability: ' + props.perc_ambulatory_disability + '<br/>' +
+                'Athsma ER visits/10000 people: ' + props.asthma_prevalence + '<br/>' +
+                'Heart attack /1000 people: ' + props.cardio_disease_prevalence + '<br/>' +
+                'median income: ' + props.median_income_kdollars + '<br/>' +
+                '% area with parks: ' + props.percent_park + '<br/>';
+        } else if (selected == "exposure") {
             values = [props.heat_days_tmaxtmin,
                     props.high_temp_streak_longest,
                     props.high_hi_hours,
                     props.pm25_concentration,
                     props.ozone_exceedance];
+            hvi = dotProd(weights, values);
             labelstring =
                 '# overheat days: ' + props.heat_days_tmaxtmin + '<br/>' +
                 'longest overheat-day streak: ' + props.high_temp_streak_longest + '<br/>' +
@@ -754,6 +892,7 @@ info.update = function (props) {
                     props.perc_ambulatory_disability,
                     props.asthma_prevalence,
                     props.cardio_disease_prevalence];
+            hvi = dotProd(weights, values);
             labelstring =
                 '% children: ' + props.perc_children + '<br/>' +
                 '% elderly: ' + props.perc_elderly + '<br/>' +
@@ -767,6 +906,7 @@ info.update = function (props) {
         } else {
             values = [props.median_income_kdollars,
                     props.percent_park];
+            hvi = dotProd(weights, values);
             labelstring =
                 'median income: ' + props.median_income_kdollars + '<br/>' +
                 '% area with parks: ' + props.percent_park + '<br/>';
@@ -781,7 +921,7 @@ info.update = function (props) {
          '<b>' +
          props.GEOID10 + '</b><br />' +
          'overall ' + $('#titletext').text() + ': ' +
-         dotProd(weights, values).toFixed(1) + '<br/>' +
+         hvi.toFixed(1) + '<br/>' +
          '<br/>' +
          'class label of individual factors' + '<br/>' +
          labelstring

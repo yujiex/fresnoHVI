@@ -73,6 +73,9 @@
                                     <label class="btn btn-outline-success">
                                         <input type="radio" name="options" id="adaptation" autocomplete="off"> Adaptation
                                     </label>
+                                    <label class="btn btn-outline-secondary">
+                                        <input type="radio" name="options" id="overall" autocomplete="off" > Overall HVI
+                                    </label>
                                 </div>
                             </div>
                             <div class="col-lg-4">
@@ -95,7 +98,7 @@
 
                 <div class="col">
 
-                    <div class="container-fluid">
+                    <div class="container-fluid" id="factors">
 
                         <div class="row">
                             <div class="col-lg">
@@ -117,19 +120,19 @@
                                 <p id="factor1">Overheat Days</p>
                             </div>
                             <div class="col-lg">
-                                <input type="text" class="form-control" id="w_1" value="1.0" placeholder="0">
+                                <input type="text" class="form-control" id="w_1" value="5.0" placeholder="0">
                             </div>
                             <div class="col-lg">
                                 <p id="factor2">Longest Overheat-day Streak</p>
                             </div>
                             <div class="col-lg">
-                                <input type="text" class="form-control" id="w_2" value="1.0" placeholder="0">
+                                <input type="text" class="form-control" id="w_2" value="0.0" placeholder="0">
                             </div>
                             <div class="col-lg">
                                 <p id="factor3">High HI Hours</p>
                             </div>
                             <div class="col-lg">
-                                <input type="text" class="form-control" id="w_3" value="1.0" placeholder="0">
+                                <input type="text" class="form-control" id="w_3" value="0.0" placeholder="0">
                             </div>
                         </div>
 

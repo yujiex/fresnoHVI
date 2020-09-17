@@ -10,8 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "leaflet": "^1.6.0",
+    "leaflet": "^1.7.1",
     "leaflet-ajax": "^2.1.0",
-    "mapbox-gl": "^1.8.1"
   }
 }
