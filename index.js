@@ -434,10 +434,10 @@ function getPalette (palette) {
 }
 
 $(document).on('change', 'input:radio[name="options"]', function (event) {
-    if ($("#overall").is(":checked")) {
+    if ($("#hvi-overall").is(":checked")) {
         console.log("overall checked");
         $('#titletext').text("Overall");
-        $('#factors').hide();
+        $('#hvi-factors').hide();
         mainMap.removeLayer(geojsonAll);
         geojsonAll = new L.GeoJSON.AJAX(allmapsUrl,
                                         {style: style_overall,
@@ -829,7 +829,7 @@ info.update = function (props) {
     var hvi;
     // console.log(props.heat_days_tmaxtmin);
     if (props) {
-        if (selected == "overall") {
+        if (selected == "hvi-overall") {
             var exposureWeights = normalize_weights([5.0, 0.0, 0.0, 1.0, 1.0]);
             var exposureValues = [props.heat_days_tmaxtmin,
                         props.high_temp_streak_longest,
@@ -853,22 +853,25 @@ info.update = function (props) {
                 dotProd(sensitivityWeights, sensitivityValues) /
                 dotProd(adaptationWeights, adaptationValues);
             labelstring =
-                '# overheat days: ' + props.heat_days_tmaxtmin + '<br/>' +
-                'longest overheat-day streak: ' + props.high_temp_streak_longest + '<br/>' +
-                '# hours with high HI: ' + props.high_hi_hours + '<br/>' +
-                'PM2.5 concentration: ' + props.pm25_concentration + '<br/>' +
-                'Ozone exceedance: ' + props.ozone_exceedance + '<br/>' +
-                '% children: ' + props.perc_children + '<br/>' +
-                '% elderly: ' + props.perc_elderly + '<br/>' +
-                '% non-white: ' + props.perc_nonwhite + '<br/>' +
-                '% in poverty: ' + props.perc_poverty + '<br/>' +
-                '% low education: ' + props.perc_no_hs_diploma + '<br/>' +
-                '% with cognitive disability: ' + props.perc_cognitive_disability + '<br/>' +
-                '% with ambulatory disability: ' + props.perc_ambulatory_disability + '<br/>' +
-                'Athsma ER visits/10000 people: ' + props.asthma_prevalence + '<br/>' +
-                'Heart attack /1000 people: ' + props.cardio_disease_prevalence + '<br/>' +
-                'median income: ' + props.median_income_kdollars + '<br/>' +
-                '% area with parks: ' + props.percent_park + '<br/>';
+                '<strong>Exposure</strong>' + '<br/>' +
+                '&nbsp # overheat days: ' + props.heat_days_tmaxtmin + '<br/>' +
+                '&nbsp longest overheat-day streak: ' + props.high_temp_streak_longest + '<br/>' +
+                '&nbsp # hours with high HI: ' + props.high_hi_hours + '<br/>' +
+                '&nbsp PM2.5 concentration: ' + props.pm25_concentration + '<br/>' +
+                '&nbsp Ozone exceedance: ' + props.ozone_exceedance + '<br/>' +
+                '<strong>Sensitivity</strong>' + '<br/>' +
+                '&nbsp % children: ' + props.perc_children + '<br/>' +
+                '&nbsp % elderly: ' + props.perc_elderly + '<br/>' +
+                '&nbsp % non-white: ' + props.perc_nonwhite + '<br/>' +
+                '&nbsp % in poverty: ' + props.perc_poverty + '<br/>' +
+                '&nbsp % low education: ' + props.perc_no_hs_diploma + '<br/>' +
+                '&nbsp % with cognitive disability: ' + props.perc_cognitive_disability + '<br/>' +
+                '&nbsp % with ambulatory disability: ' + props.perc_ambulatory_disability + '<br/>' +
+                '&nbsp Athsma ER visits/10000 people: ' + props.asthma_prevalence + '<br/>' +
+                '&nbsp Heart attack /1000 people: ' + props.cardio_disease_prevalence + '<br/>' +
+                '<strong>Adaptation</strong>' + '<br/>' +
+                '&nbsp median income: ' + props.median_income_kdollars + '<br/>' +
+                '&nbsp % area with parks: ' + props.percent_park + '<br/>';
         } else if (selected == "exposure") {
             values = [props.heat_days_tmaxtmin,
                     props.high_temp_streak_longest,
