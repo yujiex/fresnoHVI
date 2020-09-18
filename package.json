@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "leaflet": "^1.7.1",
-    "leaflet-ajax": "^2.1.0",
+    "leaflet-ajax": "^2.1.0"
   }
 }
