@@ -179,7 +179,7 @@ function style_overall(feature) {
             dotProd(exposureWeights, exposureValues) *
                 dotProd(sensitivityWeights, sensitivityValues) /
                 dotProd(adaptationWeights, adaptationValues),
-            "other"),
+            "overallHVI"),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -423,7 +423,7 @@ function getPaletteName () {
     return selected == "exposure" ? "orangeRed" :
         selected == "sensitivity" ? "bluePurple" :
         selected == "adaptation" ? "blueGreen" :
-        "other";
+        "overallHVI";
 }
 
 function getPalette (palette) {
