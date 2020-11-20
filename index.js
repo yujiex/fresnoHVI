@@ -806,6 +806,8 @@ L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}
     maxZoom: 20,
     ext: 'png'
 }).addTo(mainMap);
+// geocoding
+L.Control.geocoder().addTo(mainMap);
 
 geojsonAll = new L.GeoJSON.AJAX(allmapsUrl, {style: style_exposure,
                                                  onEachFeature: onEachFeature,
