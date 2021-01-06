@@ -477,8 +477,8 @@ $(document).on('change', 'input:radio[name="options"]', function (event) {
         };
         legend.addTo(mainMap);
     } else if ($("#exposure").is(":checked")) {
+        $('#hvi-factors').show();
         console.log("exposure checked");
-        $('#factors').show();
         $('#titletext').text("Exposure");
         $('#factor1').text("Overheat Days");
         $('#factor2').text("Longest Overheat-day Streak");
@@ -550,8 +550,8 @@ $(document).on('change', 'input:radio[name="options"]', function (event) {
         f6Geojson = new L.GeoJSON.AJAX(allmapsUrl, {style: style_ozone_exceedance,
                                                    }).addTo(f6_map);
     } else if ($("#sensitivity").is(":checked")) {
+        $('#hvi-factors').show();
         console.log("sensitivity checked");
-        $('#factors').show();
         $('#titletext').text("Sensitivity");
         $('#factor1').text("Percent Children");
         $('#factor2').text("Percent Elderly");
@@ -636,7 +636,7 @@ $(document).on('change', 'input:radio[name="options"]', function (event) {
                                        }).addTo(f9_map);
     } else {
         console.log("adaptation checked");
-        $('#factors').show();
+        $('#hvi-factors').show();
         $('#titletext').text("Adaptation");
         $('#factor1').text("Income");
         $('#factor2').text("Percent Area of Parks");
