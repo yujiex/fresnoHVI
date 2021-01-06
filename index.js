@@ -450,7 +450,7 @@ function getPalette (palette) {
 $(document).on('change', 'input:radio[name="options"]', function (event) {
     if ($("#hvi-overall").is(":checked")) {
         console.log("overall checked");
-        $('#titletext').text("Overall");
+        $('#titletext').text("HVI");
         $('#hvi-factors').hide();
         mainMap.removeLayer(geojsonAll);
         geojsonAll = new L.GeoJSON.AJAX(allmapsUrl,
