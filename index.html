@@ -14,8 +14,6 @@
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
-        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
         <style>
          .legend {
              line-height: 18px;
@@ -40,7 +38,6 @@
              margin: 0 0 5px;
              color: #777;
          }
-
          .zoom {
              transition: transform .2s; /* Animation */
              width: 100%;
@@ -54,29 +51,6 @@
              margin-left:-100px;
              margin-top:100px;
              z-index: 3;
-         }
-
-         .original-size {
-             width: 100%;
-             height: 250px;
-             margin: 0 auto;
-             z-index: 1;
-         }
-         input[type=checkbox] {
-             margin:0;
-             display:none;
-         }
-         .smallmaps div {
-             margin-right: 120px;
-             transition: transform .25s;
-             cursor: zoom-in;
-             z-index: 1;
-         }
-         input[type=checkbox]:checked ~ label > div {
-             z-index: 3;
-             margin-top:100px;
-             transform: scale(2);
-             cursor: zoom-out;
          }
         </style>
     </head>
@@ -98,9 +72,6 @@
                                     </label>
                                     <label class="btn btn-outline-success">
                                         <input type="radio" name="options" id="adaptation" autocomplete="off"> Adaptation
-                                    </label>
-                                    <label class="btn btn-outline-secondary">
-                                        <input type="radio" name="options" id="hvi-overall" autocomplete="off" > Overall HVI
                                     </label>
                                 </div>
                             </div>
@@ -124,34 +95,19 @@
 
                 <div class="col">
 
-                    <div class="container-fluid" id="hvi-factors">
+                    <div class="container-fluid">
 
                         <div class="row">
                             <div class="col-lg">
-                                <div class="smallmaps">
-                                    <input type="checkbox" id="zoomCheck1">
-                                    <label for="zoomCheck1">
-                                        <div id="f1" class="original-size">
-                                        </div>
-                                    </label>
+                                <div class="zoom" id="f1">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                <div class="smallmaps">
-                                    <input type="checkbox" id="zoomCheck2">
-                                    <label for="zoomCheck2">
-                                        <div id="f2" class="original-size">
-                                        </div>
-                                    </label>
+                                <div class="zoom" id="f2">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                <div class="smallmaps">
-                                    <input type="checkbox" id="zoomCheck3">
-                                    <label for="zoomCheck3">
-                                        <div id="f3" class="original-size">
-                                        </div>
-                                    </label>
+                                <div class="zoom" id="f3">
                                 </div>
                             </div>
                         </div>
@@ -161,48 +117,33 @@
                                 <p id="factor1">Overheat Days</p>
                             </div>
                             <div class="col-lg">
-                                <input type="text" class="form-control" id="w_1" value="5.0" placeholder="0">
+                                <input type="text" class="form-control" id="w_1" value="1.0" placeholder="0">
                             </div>
                             <div class="col-lg">
                                 <p id="factor2">Longest Overheat-day Streak</p>
                             </div>
                             <div class="col-lg">
-                                <input type="text" class="form-control" id="w_2" value="0.0" placeholder="0">
+                                <input type="text" class="form-control" id="w_2" value="1.0" placeholder="0">
                             </div>
                             <div class="col-lg">
                                 <p id="factor3">High HI Hours</p>
                             </div>
                             <div class="col-lg">
-                                <input type="text" class="form-control" id="w_3" value="0.0" placeholder="0">
+                                <input type="text" class="form-control" id="w_3" value="1.0" placeholder="0">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-lg">
-                                <div class="smallmaps">
-                                    <input type="checkbox" id="zoomCheck4">
-                                    <label for="zoomCheck4">
-                                        <div class="original-size" id="f4">
-                                        </div>
-                                    </label>
+                                <div class="zoom" id="f4">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                <div class="smallmaps">
-                                    <input type="checkbox" id="zoomCheck5">
-                                    <label for="zoomCheck5">
-                                        <div class="original-size" id="f5">
-                                        </div>
-                                    </label>
+                                <div class="zoom" id="f5">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                <div class="smallmaps">
-                                    <input type="checkbox" id="zoomCheck6">
-                                    <label for="zoomCheck6">
-                                        <div class="original-size" id="f6">
-                                        </div>
-                                    </label>
+                                <div class="zoom" id="f6">
                                 </div>
                             </div>
                         </div>
@@ -230,30 +171,15 @@
 
                         <div class="row">
                             <div class="col-lg">
-                                <div class="smallmaps">
-                                    <input type="checkbox" id="zoomCheck7">
-                                    <label for="zoomCheck7">
-                                        <div class="original-size" id="f7">
-                                        </div>
-                                    </label>
+                                <div class="zoom" id="f7">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                <div class="smallmaps">
-                                    <input type="checkbox" id="zoomCheck8">
-                                    <label for="zoomCheck8">
-                                        <div class="original-size" id="f8">
-                                        </div>
-                                    </label>
+                                <div class="zoom" id="f8">
                                 </div>
                             </div>
                             <div class="col-lg">
-                                <div class="smallmaps">
-                                    <input type="checkbox" id="zoomCheck9">
-                                    <label for="zoomCheck9">
-                                        <div class="original-size" id="f9">
-                                        </div>
-                                    </label>
+                                <div class="zoom" id="f9">
                                 </div>
                             </div>
                         </div>
